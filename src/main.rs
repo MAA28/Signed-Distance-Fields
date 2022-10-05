@@ -30,7 +30,7 @@ fn main() {
             },
             steps: Vector { x: 70, y: 35, z: 0 },
         },
-        &render::text_mappers::default
+        &render::text_mappers::fill_inside
     );
     println!("{text}");
 

@@ -130,6 +130,14 @@ pub mod text_mappers {
             ' '
         }
     }
+
+    pub fn fill_inside(x: &f64) -> char {
+        if *x < 0.0 {
+            '#'
+        } else {
+            ' '
+        }
+    }
 }
 
 
