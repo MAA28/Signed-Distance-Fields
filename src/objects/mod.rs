@@ -32,11 +32,61 @@ pub mod transforms {
             self.sdf.call(p.rotate(self.alpha, self.axis))
         }
     }
+
+    /// Scale a SDF by the vector 
+    pub struct Scale {
+        pub scale: Vector<f64>,
+        pub sdf: Box<dyn super::SignedDistanceField>
+    }
+    impl super::SignedDistanceField for Scale {
+        fn call(&self, p: Vector<f64>) -> f64 {
+            self.sdf.call(Vector { 
+                x: p.x * self.scale.x, 
+                y: p.y * self.scale.y, 
+                z: 0.0 
+            })
+        }
+    }
+
+    pub mod boolean {
+        pub struct Union {
+            pub a: Box<dyn super::super::SignedDistanceField>,
+            pub b: Box<dyn super::super::SignedDistanceField>
+        }
+        impl super::super::SignedDistanceField for Union {
+            fn call(&self, p: math_vector::Vector<f64>) -> f64 {
+                self.a.call(p).min(self.b.call(p))
+            }
+        }
+
+        pub struct Intersection {
+            pub a: Box<dyn super::super::SignedDistanceField>,
+            pub b: Box<dyn super::super::SignedDistanceField>
+        }
+        impl super::super::SignedDistanceField for Intersection {
+            fn call(&self, p: math_vector::Vector<f64>) -> f64 {
+                self.a.call(p).max(self.b.call(p))
+            }
+        }
+
+        pub struct Difference {
+            pub a: Box<dyn super::super::SignedDistanceField>,
+            pub b: Box<dyn super::super::SignedDistanceField>
+        }
+        impl super::super::SignedDistanceField for Difference {
+            fn call(&self, p: math_vector::Vector<f64>) -> f64 {
+                self.a.call(p) * self.b.call(p) - 1.0
+            }
+        }
+    }
 }
+
+
 
 
 pub mod primitives {
     use math_vector::Vector;
+
     /// SDF for rectangle
     pub struct Rectangle {
         /// Width of the rectangle
@@ -73,7 +123,7 @@ pub mod primitives {
     }
     impl super::SignedDistanceField for Circle {
         fn call(&self, p: Vector<f64>) -> f64 {
-            self.r - p.length()
+            p.length() - self.r
         }
     }
 }
