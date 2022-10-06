@@ -7,33 +7,33 @@ pub mod objects;
 pub mod render;
 
 fn main() {
-    let sdf = objects::operators::Smooth { 
-        sdf: Box::new(objects::operators::boolean::Not {
-            sdf: Box::new(objects::operators::boolean::Union {
-                a: Box::new(objects::operators::boolean::Not {
-                    sdf: Box::new(objects::operators::transforms::Rotate {
-                        alpha: 2.0,
-                        axis: Vector {
-                            x: 0.0,
-                            y: 0.0,
-                            z: 1.0,
-                        },
-                        sdf: Box::new(objects::operators::transforms::Translate {
-                            p: Vector {
-                                x: 5.0,
-                                y: 0.0,
-                                z: 0.0,
-                            },
-                            sdf: Box::new(objects::primitives::Rectangle { w: 5.0, h: 7.5 }),
-                        }),
-                    }),
-                }),
-                b: Box::new(objects::primitives::Circle { r: 5.0 }),
-            })
-        }),
-        k: 0.0
-    };
-    // let sdf = objects::primitives::Rectangle{w:5.0, h:6.0};
+    // let sdf = objects::operators::Smooth {
+    //     sdf: Box::new(objects::operators::boolean::Not {
+    //         sdf: Box::new(objects::operators::boolean::Union {
+    //             a: Box::new(objects::operators::boolean::Not {
+    //                 sdf: Box::new(objects::operators::transforms::Rotate {
+    //                     alpha: 2.0,
+    //                     axis: Vector {
+    //                         x: 0.0,
+    //                         y: 0.0,
+    //                         z: 1.0,
+    //                     },
+    //                     sdf: Box::new(objects::operators::transforms::Translate {
+    //                         p: Vector {
+    //                             x: 5.0,
+    //                             y: 0.0,
+    //                             z: 0.0,
+    //                         },
+    //                         sdf: Box::new(objects::primitives::Rectangle { w: 5.0, h: 7.5 }),
+    //                     }),
+    //                 }),
+    //             }),
+    //             b: Box::new(objects::primitives::Circle { r: 5.0 }),
+    //         }),
+    //     }),
+    //     k: 0.0,
+    // };
+    let sdf = objects::primitives::Rectangle {w: 14.0, h: 5.0 };
     let text = render::text(
         &sdf,
         &Domain {
@@ -79,7 +79,7 @@ fn main() {
         &render::color_mappers::red_blue_repeating,
     );
 
-    img.save("render.png").unwrap();
+    img.save("images/Cricle.png").unwrap();
 }
 
 /// A rectangular space from which points can be samples

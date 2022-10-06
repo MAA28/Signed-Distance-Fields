@@ -13,12 +13,14 @@ impl super::SignedDistanceField for Smooth {
     }
 }
 
-/// The operators in this module apply linear transforms to the input SDF
+/// The operators in this module apply linear transforms to SDFs
 pub mod transforms {
     use math_vector::Vector;
-    /// Translate a SDF by p
+    /// Translate a SDF
     pub struct Translate {
+        /// The SDF will be translated by p
         pub p: Vector<f64>,
+        /// The SDF, that will be translated
         pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Translate {
@@ -27,9 +29,9 @@ pub mod transforms {
         }
     }
 
-    /// Rotate a SDF by alpha radians
+    /// Rotate a SDF
     pub struct Rotate {
-        /// The angle by which the SDF will be rotated
+        /// The angle (in radians) by which the SDF will be rotated
         pub alpha: f64,
         /// The axis around which the SDF will be rotated
         pub axis: Vector<f64>,
@@ -42,9 +44,11 @@ pub mod transforms {
         }
     }
 
-    /// Scale a SDF by the vector
+    /// Scale a SDF
     pub struct Scale {
+        /// The SDF will be scaled by the components of scale
         pub scale: Vector<f64>,
+        /// The SDF, that will be scaled
         pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Scale {
@@ -57,9 +61,11 @@ pub mod transforms {
         }
     }
 
-    /// Multiplies a SDF by a matrix
+    /// Multiplie a SDF
     pub struct Matrix {
+        /// The SDF will be multiplied with this matrix
         pub matrix: [[f64; 2]; 2],
+        /// The SDF, that will be multiplied
         pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Matrix {

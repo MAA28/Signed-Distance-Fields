@@ -46,37 +46,33 @@ impl super::SignedDistanceField for Circle {
     }
 }
 
-/// SDF for a infinite line
+/// SDF for a infinite line (straight)
 pub struct Straight {}
 impl super::SignedDistanceField for Straight {
     fn call(&self, p: Vector<f64>) -> f64 {
-        p.y.abs()
+        p.x.abs()
     }
 }
 
 /// SDF for a line
 pub struct Line {
     /// Length of the line
-    pub l: f64,
+    pub l: f64
 }
 impl super::SignedDistanceField for Line {
     fn call(&self, p: Vector<f64>) -> f64 {
-        if -0.5 * self.l > p.x {
-            (Vector {
-                x: -0.5 * self.l,
-                y: 0.0,
-                z: 0.0,
-            } - p)
-                .length()
-        } else if p.x > 0.5 * self.l {
-            (Vector {
-                x: 0.5 * self.l,
-                y: 0.0,
-                z: 0.0,
-            } - p)
-                .length()
-        } else {
-            p.y.abs()
-        }
+        if -0.5 * self.l < p.x {
+            (Vector { x: -0.5 * self.l, y: 0.0, z: 0.0 } - p).length()
+        } else if p.x < 0.5 * self.l {
+            (Vector { x: 0.5 * self.l, y: 0.0, z: 0.0 } - p).length()
+         } else {
+            p.x.abs()
+         }
+
     }
 }
+
+
+
+
+
