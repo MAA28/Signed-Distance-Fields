@@ -6,6 +6,7 @@ pub mod objects;
 /// Renderers and tools that are useful for working with renderers
 pub mod render;
 
+
 fn main() {
     // let sdf = objects::operators::Smooth {
     //     sdf: Box::new(objects::operators::boolean::Not {
@@ -31,9 +32,32 @@ fn main() {
     //             b: Box::new(objects::primitives::Circle { r: 5.0 }),
     //         }),
     //     }),
-    //     k: 0.0,
+    //     k: 3.0,
     // };
-    let sdf = objects::primitives::Rectangle {w: 14.0, h: 5.0 };
+    
+        
+    let a = objects::primitives::Circle { r: 5.0 };
+    
+    let b = objects::operators::transforms::Translate {
+       sdf: Box::new(a),
+       p: Vector { x: 2.5 , y: -5.0, z: 0.0 }
+    };
+    
+    let c = objects::primitives::Rectangle { w: 10.0, h: 5.0 };
+    
+    let d = objects::operators::boolean::Intersection {
+        a: Box::new(b),
+        b: Box::new(c)
+    };
+
+
+    let e = objects::operators::Smooth {
+        sdf: Box::new(d),
+        k: 3.0
+    };
+
+    let sdf = e;
+
     let text = render::text(
         &sdf,
         &Domain {

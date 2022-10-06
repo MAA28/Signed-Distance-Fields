@@ -6,6 +6,16 @@ pub trait SignedDistanceField {
     fn call(&self, p: Vector<f64>) -> f64;
 }
 
+pub struct F {
+    pub f: Box<dyn Fn(Vector<f64>) -> f64>
+}
+impl SignedDistanceField for F {
+   fn call(&self, p: Vector<f64>) -> f64 {
+       (self.f)(p)
+   } 
+}
+
+
 /// Combine, change, develop SDFs
 pub mod operators;
 

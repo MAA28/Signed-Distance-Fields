@@ -1,6 +1,8 @@
 use math_vector::Vector;
 
 /// SDF of a rectangle
+///
+/// ![A SDF render of a rectangle with a width of 14.0 and a height of 5.0](https://github.com/MAA28/Signed-Distance-Fields/blob/main/images/signed_distance_field::objects::primitives::Rectangle%20%7B%20w:%2014.0,%20h:%205.0%20%7D.png?raw=true)
 pub struct Rectangle {
     /// Width
     pub w: f64,
@@ -36,6 +38,8 @@ impl super::SignedDistanceField for Rectangle {
 }
 
 /// SDF for a circle
+///
+/// ![A SDF render of a circle with a radius of 7.5](https://github.com/MAA28/Signed-Distance-Fields/blob/main/images/signed_distance_field::objects::primitives::Circle%20%7B%20r:%207.5%20%7D.png?raw=true")
 pub struct Circle {
     /// Radius
     pub r: f64,
@@ -47,6 +51,8 @@ impl super::SignedDistanceField for Circle {
 }
 
 /// SDF for a infinite line
+///
+/// ![A SDF render of a infinite line](https://github.com/MAA28/Signed-Distance-Fields/blob/main/images/signed_distance_field::objects::primitives::Straight%20%7B%7D.png?raw=true)
 pub struct Straight {}
 impl super::SignedDistanceField for Straight {
     fn call(&self, p: Vector<f64>) -> f64 {
@@ -55,6 +61,8 @@ impl super::SignedDistanceField for Straight {
 }
 
 /// SDF for a line
+///
+/// ![A SDF render of a line with a length of 7.5](https://github.com/MAA28/Signed-Distance-Fields/blob/main/images/signed_distance_field::objects::primitives::Line%20%7B%20l:%206.0%20%7D.png?raw=true)
 pub struct Line {
     /// Length of the line
     pub l: f64,
