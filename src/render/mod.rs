@@ -171,4 +171,12 @@ pub mod color_mappers {
 
         Rgb([(col.red * 256.0) as u8, (col.green * 256.0) as u8, (col.blue * 256.0) as u8])
     }
+
+    pub fn inside_black_outside_white(x: &f64) -> Rgb<u8> {
+        if *x < 0.0 {
+            Rgb([255, 255, 255])
+        } else {
+            Rgb([0, 0, 0])
+        }
+    }
 }
