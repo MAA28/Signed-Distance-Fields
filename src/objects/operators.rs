@@ -1,7 +1,11 @@
 use math_vector::Vector;
+
+/// This operator rounds the edges of functions
 pub struct Smooth {
+    /// The SDF, that will be smoothed
     pub sdf: Box<dyn super::SignedDistanceField>,
-    pub k: f64
+    /// Smoothing factor by which the SDF will be smoothed
+    pub k: f64,
 }
 impl super::SignedDistanceField for Smooth {
     fn call(&self, p: Vector<f64>) -> f64 {
@@ -9,12 +13,13 @@ impl super::SignedDistanceField for Smooth {
     }
 }
 
+/// The operators in this module apply linear transforms to the input SDF
 pub mod transforms {
     use math_vector::Vector;
     /// Translate a SDF by p
     pub struct Translate {
         pub p: Vector<f64>,
-        pub sdf: Box<dyn super::super::SignedDistanceField>
+        pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Translate {
         fn call(&self, p: Vector<f64>) -> f64 {
@@ -29,7 +34,7 @@ pub mod transforms {
         /// The axis around which the SDF will be rotated
         pub axis: Vector<f64>,
         /// The SDF, that will be rotated
-        pub sdf: Box<dyn super::super::SignedDistanceField>
+        pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Rotate {
         fn call(&self, p: Vector<f64>) -> f64 {
@@ -37,41 +42,43 @@ pub mod transforms {
         }
     }
 
-    /// Scale a SDF by the vector 
+    /// Scale a SDF by the vector
     pub struct Scale {
         pub scale: Vector<f64>,
-        pub sdf: Box<dyn super::super::SignedDistanceField>
+        pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Scale {
         fn call(&self, p: Vector<f64>) -> f64 {
-            self.sdf.call(Vector { 
-                x: p.x * self.scale.x, 
-                y: p.y * self.scale.y, 
-                z: 0.0 
+            self.sdf.call(Vector {
+                x: p.x * self.scale.x,
+                y: p.y * self.scale.y,
+                z: 0.0,
             })
         }
     }
 
-    /// Multiplies a SDF by a matrix 
+    /// Multiplies a SDF by a matrix
     pub struct Matrix {
         pub matrix: [[f64; 2]; 2],
-        pub sdf: Box<dyn super::super::SignedDistanceField>
+        pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Matrix {
         fn call(&self, p: Vector<f64>) -> f64 {
-            self.sdf.call(Vector { 
-                x: self.matrix[0][0] * p.x + self.matrix[0][1] * p.y, 
-                y: self.matrix[1][0] * p.x + self.matrix[1][1] * p.y, 
-                z: 0.0 
+            self.sdf.call(Vector {
+                x: self.matrix[0][0] * p.x + self.matrix[0][1] * p.y,
+                y: self.matrix[1][0] * p.x + self.matrix[1][1] * p.y,
+                z: 0.0,
             })
         }
     }
 }
 
+/// Use boolean logic operators on SDFs
 pub mod boolean {
+    /// Create a union of the SDFs (`a ∪ b`)
     pub struct Union {
         pub a: Box<dyn super::super::SignedDistanceField>,
-        pub b: Box<dyn super::super::SignedDistanceField>
+        pub b: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Union {
         fn call(&self, p: math_vector::Vector<f64>) -> f64 {
@@ -79,9 +86,10 @@ pub mod boolean {
         }
     }
 
+    /// Create a intersection of the SDFs (`a ∩ b`)
     pub struct Intersection {
         pub a: Box<dyn super::super::SignedDistanceField>,
-        pub b: Box<dyn super::super::SignedDistanceField>
+        pub b: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Intersection {
         fn call(&self, p: math_vector::Vector<f64>) -> f64 {
@@ -89,15 +97,13 @@ pub mod boolean {
         }
     }
 
+    /// Create the negative of a SDFs (`¬a`)
     pub struct Not {
-        pub a: Box<dyn super::super::SignedDistanceField>,
-        pub b: Box<dyn super::super::SignedDistanceField>
+        pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Not {
         fn call(&self, p: math_vector::Vector<f64>) -> f64 {
-            let a = self.a.call(p);
-            let b = self.b.call(p);
-            -a.min(-b)
+            -self.sdf.call(p)
         }
     }
 }
