@@ -5,10 +5,11 @@ edition = "2021"
 author = "Malte Aschenbach"
 repository = "https://github.com/MAA28/Signed-Distance-Fields"
 description = "A implementation of SDFs (signed distance fields) and some operators to play with these SDFs"
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+
 
 [dependencies]
-math_vector = { version = "0.2.1", git = "https://github.com/ThomasByr/rust-math_vector" }
+math_vector = { version = "0.2.1", path = "crates/rust-math_vector" }
 itertools-num = "0.1.3"
 image = "0.24.4"
 palette = "0.6.1"
