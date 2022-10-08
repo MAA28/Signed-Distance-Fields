@@ -2,7 +2,7 @@
 name = "signed_distance_fields"
 version = "1.0.2"
 edition = "2021"
-author = "Malte Aschenbach"
+authors = ["Malte Aschenbach <malteaschenbach@gmail.com"]
 repository = "https://github.com/MAA28/Signed-Distance-Fields"
 description = "A implementation of SDFs (signed distance fields) and some operators to play with these SDFs"
 license = "MIT"

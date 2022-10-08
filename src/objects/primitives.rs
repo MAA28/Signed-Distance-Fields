@@ -31,9 +31,7 @@ impl super::SignedDistanceField for Rectangle {
             .x
             .max(component_wise_edge_distance.y);
 
-        let distance = outside_distance + inside_distance;
-
-        distance
+        outside_distance + inside_distance
     }
 }
 

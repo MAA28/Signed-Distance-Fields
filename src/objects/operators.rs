@@ -83,7 +83,9 @@ pub mod transforms {
 pub mod boolean {
     /// Create a union of the SDFs (`a ∪ b`)
     pub struct Union {
+        /// The one part of the union
         pub a: Box<dyn super::super::SignedDistanceField>,
+        /// The other part of the union
         pub b: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Union {
@@ -94,7 +96,9 @@ pub mod boolean {
 
     /// Create a intersection of the SDFs (`a ∩ b`)
     pub struct Intersection {
+        /// The one part of the intersection
         pub a: Box<dyn super::super::SignedDistanceField>,
+        /// The other part of the intersection
         pub b: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Intersection {
@@ -105,6 +109,7 @@ pub mod boolean {
 
     /// Create the negative of a SDFs (`¬a`)
     pub struct Not {
+        /// The SDF that is to be negated
         pub sdf: Box<dyn super::super::SignedDistanceField>,
     }
     impl super::super::SignedDistanceField for Not {

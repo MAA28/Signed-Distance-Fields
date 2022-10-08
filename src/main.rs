@@ -10,7 +10,7 @@ pub mod render;
 fn main() {
     // let sdf = objects::operators::Smooth {
     //     sdf: Box::new(objects::operators::boolean::Not {
-    //         sdf: Box::new(objects::operators::boolean::Union {
+//         sdf: Box::new(objects::operators::boolean::Union {
     //             a: Box::new(objects::operators::boolean::Not {
     //                 sdf: Box::new(objects::operators::transforms::Rotate {
     //                     alpha: 2.0,
