@@ -1,6 +1,6 @@
 [package]
 name = "signed_distance_fields"
-version = "1.0.1"
+version = "1.0.0"
 edition = "2021"
 author = "Malte Aschenbach"
 repository = "https://github.com/MAA28/Signed-Distance-Fields"
