@@ -4,6 +4,11 @@
 default_job = "check"
 [jobs]
 
+[jobs.example]
+command = ["cargo", "run", "--color", "always", "--example", "operators_transform"]
+need_stdout = true
+watch = ["src/", "examples/"]
+
 [jobs.check]
 command = ["cargo", "check", "--color", "always"]
 need_stdout = false
@@ -52,6 +57,7 @@ allow_warnings = true
 # Shortcuts to internal functions (scrolling, toggling, etc.)
 # should go in your personal prefs.toml file instead.
 [keybindings]
+e = "job:example"
 a = "job:check-all"
 i = "job:initial"
 c = "job:clippy"

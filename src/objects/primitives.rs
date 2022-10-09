@@ -86,3 +86,15 @@ impl super::SignedDistanceField for Line {
         }
     }
 }
+
+
+/// SDF for the whole plane
+///
+/// ![A SDF render of a line with a length of 7.5](https://github.com/MAA28/Signed-Distance-Fields/blob/main/images/signed_distance_field-objects-primitives-Plane%20%7B%7D.png?raw=true)
+pub struct Plane {}
+impl super::SignedDistanceField for Plane {
+    fn call(&self, _p: Vector<f64>) -> f64 {
+      0.0 
+    }
+}
+

@@ -6,18 +6,16 @@ pub trait SignedDistanceField {
     fn call(&self, p: Vector<f64>) -> f64;
 }
 
-
-/// A general purpose SDF with just a distance function 
+/// A general purpose SDF with just a distance function
 pub struct F {
     /// The distance function
-    pub f: Box<dyn Fn(Vector<f64>) -> f64>
+    pub f: Box<dyn Fn(Vector<f64>) -> f64>,
 }
 impl SignedDistanceField for F {
-   fn call(&self, p: Vector<f64>) -> f64 {
-       (self.f)(p)
-   } 
+    fn call(&self, p: Vector<f64>) -> f64 {
+        (self.f)(p)
+    }
 }
-
 
 /// Combine, change, develop SDFs
 pub mod operators;

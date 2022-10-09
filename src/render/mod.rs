@@ -83,20 +83,11 @@ pub fn image(
 pub fn text(
     sdf: &dyn SignedDistanceField,
     domain: &Domain,
-    text_mapper: &dyn Fn(&f64) -> char,
+    text_mapper: &dyn Fn(&Vec<Vec<f64>>, &Domain) -> String,
 ) -> String {
     let matrix = matrix(sdf, domain);
-
-    let mut s = String::new();
-    for j in 0..domain.steps.y {
-        for i in 0..domain.steps.x {
-            let value = matrix.get(i).unwrap().get(j).unwrap();
-            s.push(text_mapper(value));
-        }
-        s.push('\n');
-    }
-
-    s
+    
+    text_mapper(&matrix, domain)
 }
 
 /// Renders a SDF into a matrix
@@ -117,27 +108,57 @@ pub fn matrix(sdf: &dyn SignedDistanceField, domain: &Domain) -> Vec<Vec<f64>> {
 
 /// Change the style of the text render
 pub mod text_mappers {
+    use crate::Domain;
+
 
     /// Drawes the edge ('*') and show which parts are inside ('-') and which are outside ('-')
-    pub fn default(x: &f64) -> char {
-        if *x == 0.0 {
-            '*'
-        } else if 0.0 > *x && *x > -0.5 {
-            '-'
-        } else if 0.0 < *x && *x < 0.5 {
-            '+'
-        } else {
-            ' '
+    pub fn default(matrix: &Vec<Vec<f64>>, domain: &Domain) -> String {
+        let mut s = String::new();
+
+        for j in 0..domain.steps.y {
+            for i in 0..domain.steps.x {
+                s.push({
+                    let x = matrix.get(i).unwrap().get(j).unwrap();
+
+                    if *x == 0.0 {
+                        '*'
+                    } else if 0.0 > *x && *x > -0.5 {
+                        '-'
+                    } else if 0.0 < *x && *x < 0.5 {
+                        '+'
+                    } else {
+                        ' '
+                    }
+                });
+            }
+            s.push('\n');
         }
+
+        s
     }
     
+    
+
     /// Fills the inside with '#'
-    pub fn fill_inside(x: &f64) -> char {
-        if *x < 0.0 {
-            '#'
-        } else {
-            ' '
+    pub fn fill_inside(matrix: &Vec<Vec<f64>>, domain: &Domain) -> String  {
+        let mut s = String::new();
+
+        for j in 0..domain.steps.y {
+            for i in 0..domain.steps.x {
+                s.push({
+                    let x = matrix.get(i).unwrap().get(j).unwrap();
+
+                    if *x <= 0.0 {
+                        '#'
+                    } else {
+                        ' '
+                    }
+                });
+            }
+            s.push('\n');
         }
+
+        s
     }
 }
 
@@ -178,7 +199,7 @@ pub mod color_mappers {
             (col.blue * 256.0) as u8,
         ])
     }
-    
+
     /// If the value of that pixel is above 0.0 it's going to drawn in white else black.
     /// Hence it creates something like a hard mask of the SDF
     pub fn inside_black_outside_white(x: &f64) -> Rgb<u8> {
